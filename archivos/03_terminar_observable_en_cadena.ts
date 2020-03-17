@@ -1,10 +1,11 @@
 import { Observable, Observer } from 'rxjs';
 
 /**
- * CUARTA CLASE
+ * TERCERA CLASE
  * 
- * Terminar observables en cadena 
- * 
+ * Subscription and unsubscribe 
+ * En el caso del intervale RXJS nos ofrece un 
+ * metodo con la funcionalidad de cancelacion ya creada
  */
 
 
@@ -26,30 +27,28 @@ const intervalo$ = new Observable<number>( subs => {
     subs.next(contador)
   }, 1000);
 
-
-  setTimeout(() => {
-    subs.complete()
-  }, 2550)
-
   return () => {
     clearInterval(intervalo);
     console.log('intervalo destruido')
   }
 })
  
-const subs1 = intervalo$.subscribe(observer);
-const subs2 = intervalo$.subscribe(observer);
-const subs3 = intervalo$.subscribe(observer);
-
-// encadenar subscripciones
-subs1
-  .add( subs2 )
-  .add( subs3 );
+const subs1 = intervalo$.subscribe( num => {
+  console.log('num -> ', num);
+});
+const subs2 = intervalo$.subscribe( num => {
+  console.log('num2 -> ', num);
+});
+const subs3 = intervalo$.subscribe( num => {
+  console.log('num -> ', num);
+});
 
 
 setTimeout(() => {
   
   subs1.unsubscribe();
+  subs2.unsubscribe();
+  subs3.unsubscribe();
 
 }, 3000);
 
